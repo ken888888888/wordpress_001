@@ -22,7 +22,7 @@ def index():
             remaining_days = remaining_years * 365.25  # 1年を365.25日として計算
 
             # 結果を表示
-            return render_template_string(result_html, remaining_days=int(remaining_days), remaining_months=remaining_months)
+            return render_template_string(result_html, remaining_years=remaining_years, remaining_days=int(remaining_days), remaining_months=remaining_months)
         except ValueError:
             # 入力が整数でない場合のエラーハンドリング
             error_message = "年齢は整数を入力してください。"
@@ -38,20 +38,49 @@ index_html = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>年齢計算</title>
+    <style>
+        body {
+            font-family: 'Meiryo', sans-serif;
+            color: #222222;
+            font-size: 15px;
+        }
+        input[type="number"] {
+            font-family: 'Meiryo', sans-serif;
+            font-size: 15px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            margin-top: 20px;
+            font-size: 15px;
+        }
+        .error-message {
+            color: red;
+        }
+        .heading {
+            font-size: 15px;
+            font-weight: normal;
+        }
+    </style>
 </head>
 <body>
-    <h1>目標年齢までの残り期間を計算</h1>
+    <p class="heading">〖 目標年齢までの残り期間を計算 〗</p>
 
     {% if error_message %}
-        <p style="color: red;">{{ error_message }}</p>
+        <p class="error-message">{{ error_message }}</p>
     {% endif %}
 
     <form method="POST">
         <label for="target_age">何歳まで生きたいですか？</label>
-        <input type="number" id="target_age" name="target_age" required><br>
+        <input type="number" id="target_age" name="target_age" required> 歳<br>
 
         <label for="current_age">現在の年齢は何歳ですか？</label>
-        <input type="number" id="current_age" name="current_age" required><br>
+        <input type="number" id="current_age" name="current_age" required> 歳<br>
 
         <input type="submit" value="計算">
     </form>
@@ -67,11 +96,23 @@ result_html = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>計算結果</title>
+    <style>
+        body {
+            font-family: 'Meiryo', sans-serif;
+            color: #222222;
+            font-size: 15px;
+        }
+        .heading {
+            font-size: 15px;
+            font-weight: normal;
+        }
+    </style>
 </head>
 <body>
-    <h1>計算結果</h1>
-    <p>残りは約{{ remaining_days }}日です。</p>
+    <p class="heading">〖 計算結果 〗</p>
+    <p>残りは約{{ remaining_years }}年です。</p>
     <p>または、約{{ remaining_months }}ヶ月です。</p>
+    <p>または、約{{ remaining_days }}日です。</p>
 </body>
 </html>
 """
